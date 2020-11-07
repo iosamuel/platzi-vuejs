@@ -7,25 +7,23 @@
   </head>
   <body>
     <div id="app">
-      <span></span>
+      <span v-text="message"></span>
       <br />
-      <input type="text" />
+      <input type="text" v-model="message" />
     </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
     <script>
-      const data = {
-        message: "Hola mundo!"
-      };
+      const { createApp } = Vue;
 
-      const span = document.querySelector("span");
-      span.innerText = data.message;
-
-      const input = document.querySelector("input");
-      input.value = data.message;
-
-      input.addEventListener("input", () => {
-        data.message = input.value;
-        span.innerText = data.message;
+      const app = createApp({
+        data() {
+          return {
+            message: "Hola Vue!"
+          };
+        }
       });
+      app.mount("#app");
     </script>
   </body>
 </html>
