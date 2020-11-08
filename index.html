@@ -9,7 +9,11 @@
     <div id="app">
       <span p-text="message"></span>
       <br />
+      <span p-text="otro"></span>
+      <br />
       <input type="text" p-model="message" />
+      <br />
+      <input type="text" p-model="otro" />
     </div>
 
     <script src="platzi.js"></script>
@@ -19,7 +23,8 @@
       createApp({
         data() {
           return {
-            message: "Hola Platzi Model!"
+            message: "Hola Platzi Model!",
+            otro: "Hola minivue"
           };
         }
       });

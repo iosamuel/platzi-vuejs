@@ -1,10 +1,15 @@
 class PlatziReactive {
+  // Dependecias
+  deps = new Map();
+
   /*
     options:
       data() => { ... }
   */
   constructor({ data }) {
     const origen = data();
+
+    const self = this;
 
     // $data = destino
     this.$data = new Proxy(origen, {
@@ -13,14 +18,15 @@ class PlatziReactive {
           return target[name];
         } */
         if (Reflect.has(target, name)) {
+          self.track(target, name);
           return Reflect.get(target, name);
         }
         console.warn("La propiedad que intentas acceder no existe");
         return "";
       },
       set(target, name, value) {
-        console.log("Cambiando", name, "a", value);
         Reflect.set(target, name, value);
+        self.trigger(target, name);
       }
     });
 
@@ -33,13 +39,29 @@ class PlatziReactive {
     });
 
     document.querySelectorAll("*[p-model]").forEach(el => {
-      const attr = el.getAttribute("p-model");
-      el.value = Reflect.get(this.$data, attr);
+      const name = el.getAttribute("p-model");
+      el.value = Reflect.get(this.$data, name);
 
       el.addEventListener("input", () => {
-        this.pModel(el, this.$data, attr);
+        this.pModel(el, this.$data, name);
       });
     });
+  }
+
+  track(target, name) {
+    if (!this.deps.has(name)) {
+      const effect = () => {
+        document.querySelectorAll(`*[p-text=${name}]`).forEach(el => {
+          this.pText(el, target, name);
+        });
+      };
+      this.deps.set(name, effect);
+    }
+  }
+
+  trigger(target, name) {
+    const effect = this.deps.get(name);
+    effect();
   }
 
   pText(el, target, name) {
