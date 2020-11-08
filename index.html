@@ -9,25 +9,21 @@
     <div id="app">
       <span p-text="message"></span>
       <br />
-      <span p-text="otro"></span>
-      <br />
       <input type="text" p-model="message" />
-      <br />
-      <input type="text" p-model="otro" />
     </div>
 
     <script src="platzi.js"></script>
     <script>
       const { createApp } = Platzi;
 
-      createApp({
+      const app = createApp({
         data() {
           return {
-            message: "Hola Platzi Model!",
-            otro: "Hola minivue"
+            message: "Hola Platzi!"
           };
         }
       });
+      app.mount();
     </script>
   </body>
 </html>
