@@ -9,6 +9,10 @@
     <div id="app">
       <span p-text="message"></span>
       <br />
+      <span p-text="otro"></span>
+      <br />
+      <input type="text" p-model="message" />
+      <br />
       <input type="text" p-model="message" />
     </div>
 
@@ -19,7 +23,8 @@
       const app = createApp({
         data() {
           return {
-            message: "Hola Platzi!"
+            message: "Hola Platzi!",
+            otro: "hola minivue"
           };
         }
       });

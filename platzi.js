@@ -1,10 +1,15 @@
 class PlatziReactive {
+  // Dependencias
+  deps = new Map();
+
   /*
     options:
       data() => { ... }
   */
   constructor({ data }) {
     this.origen = data();
+
+    const self = this;
 
     // Destino
     this.$data = new Proxy(this.origen, {
@@ -13,6 +18,7 @@ class PlatziReactive {
           return target[name];
         } */
         if (Reflect.has(target, name)) {
+          self.track(target, name);
           return Reflect.get(target, name);
         }
         console.warn("La propiedad", name, "no existe");
@@ -20,8 +26,24 @@ class PlatziReactive {
       },
       set(target, name, value) {
         Reflect.set(target, name, value);
+        self.trigger(name);
       }
     });
+  }
+
+  track(target, name) {
+    if (!this.deps.has(name)) {
+      const effect = () => {
+        document.querySelectorAll(`*[p-text=${name}]`).forEach(el => {
+          this.pText(el, target, name);
+        });
+      };
+      this.deps.set(name, effect);
+    }
+  }
+  trigger(name) {
+    const effect = this.deps.get(name);
+    effect();
   }
 
   mount() {
