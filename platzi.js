@@ -33,11 +33,11 @@ class PlatziReactive {
     });
 
     document.querySelectorAll("*[p-model]").forEach(el => {
-      const attr = el.getAttribute("p-model");
-      el.value = Reflect.get(this.$data, attr);
+      const name = el.getAttribute("p-model");
+      el.value = Reflect.get(this.$data, name);
 
       el.addEventListener("input", () => {
-        this.pModel(el, this.$data, attr);
+        this.pModel(el, this.$data, name);
       });
     });
   }
