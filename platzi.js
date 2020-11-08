@@ -4,52 +4,32 @@ class PlatziReactive {
       data() => { ... }
   */
   constructor({ data }) {
-    const origen = data();
+    this.origen = data();
 
-    // $data = destino
-    this.$data = new Proxy(origen, {
+    // Destino
+    this.$data = new Proxy(this.origen, {
       get(target, name) {
-        /* if (name in target) {
+        if (name in target) {
           return target[name];
-        } */
-        if (Reflect.has(target, name)) {
-          return Reflect.get(target, name);
         }
-        console.warn("La propiedad que intentas acceder no existe");
+        console.warn("La propiedad", name, "no existe");
         return "";
       },
-      set(target, name, value) {
-        console.log("Cambiando", name, "a", value);
-        Reflect.set(target, name, value);
-      }
+      set() {}
     });
-
-    this.mount();
   }
 
   mount() {
     document.querySelectorAll("*[p-text]").forEach(el => {
       this.pText(el, this.$data, el.getAttribute("p-text"));
     });
-
-    document.querySelectorAll("*[p-model]").forEach(el => {
-      const name = el.getAttribute("p-model");
-      el.value = Reflect.get(this.$data, name);
-
-      el.addEventListener("input", () => {
-        this.pModel(el, this.$data, name);
-      });
-    });
   }
 
   pText(el, target, name) {
-    const content = Reflect.get(target, name);
-    el.innerText = content;
+    el.innerText = target[name];
   }
 
-  pModel(el, target, name) {
-    Reflect.set(target, name, el.value);
-  }
+  pModel() {}
 }
 
 var Platzi = {
