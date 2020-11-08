@@ -7,13 +7,9 @@
   </head>
   <body>
     <div id="app">
-      <span p-text="message"></span>
+      <img p-bind="src:image"></img>
       <br />
-      <span p-text="otro"></span>
-      <br />
-      <input type="text" p-model="message" />
-      <br />
-      <input type="text" p-model="message" />
+      <input type="text" p-model="image" />
     </div>
 
     <script src="platzi.js"></script>
@@ -23,8 +19,7 @@
       const app = createApp({
         data() {
           return {
-            message: "Hola Platzi!",
-            otro: "hola minivue"
+            image: "https://via.placeholder.com/150/771796",
           };
         }
       });
