@@ -149,11 +149,17 @@
         <div class="cart-content">
           <div class="cart-content__product">
             <img src="" alt="" />
-            <span>Producto - $ 100.000</span>
+            <span>
+              {{ product.name }} - $ {{ new
+              Intl.NumberFormat("es-CO").format(product.price) }}
+            </span>
           </div>
           <div class="cart-content__product">
             <img src="" alt="" />
-            <span>Producto - $ 100.000</span>
+            <span>
+              {{ product.name }} - $ {{ new
+              Intl.NumberFormat("es-CO").format(product.price) }}
+            </span>
           </div>
         </div>
       </header>
@@ -168,16 +174,14 @@
           </div>
         </section>
         <section class="description">
-          <h4>Producto</h4>
+          <h4>{{ product.name }} {{ product.stock === 0 ? "😭" : "😎" }}</h4>
           <span class="badge new">Nuevo</span>
           <span class="badge offer">Oferta</span>
           <p class="description__status"></p>
-          <p class="description__price">$ 100.000</p>
-          <p class="description__content">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-            fugiat fugit fuga sapiente alias eveniet pariatur iure libero
-            facilis veniam.
+          <p class="description__price">
+            $ {{ new Intl.NumberFormat("es-CO").format(product.price) }}
           </p>
+          <p class="description__content"></p>
           <div class="discount">
             <span>Codigo de Descuento:</span>
             <input type="text" placeholder="Ingresa tu codigo" />
@@ -194,7 +198,24 @@
       const app = createApp({
         data() {
           return {
-            message: "Hola Vue!"
+            product: {
+              name: "Camara PL",
+              price: 500_000,
+              stock: 0,
+              content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
+                fugiat fugit fuga sapiente alias eveniet pariatur iure libero
+                facilis veniam.`,
+              images: [
+                {
+                  image: "./images/camara.jpg",
+                  thumbnail: "./images/camara-thumb.jpg"
+                },
+                {
+                  image: "./images/camara-2.jpg",
+                  thumbnail: "./images/camara-2-thumb.jpg"
+                }
+              ]
+            }
           };
         }
       });
