@@ -147,16 +147,15 @@
         <h3>PlatziCommerce</h3>
         <button class="cart">Carro (0)</button>
         <div class="cart-content" v-show="cartOpen">
-          <div class="cart-content__product">
-            <img v-bind:src="product.images[0].thumbnail" :alt="product.name.toUpperCase()" />
+          <div
+            v-for="(prodCart, index) in cart"
+            :key="prodCart.name"
+            class="cart-content__product"
+            :class="{ 'bg-gray': index & 1 }"
+          >
+            <img v-bind:src="prodCart.images[0].thumbnail" :alt="prodCart.name.toUpperCase()" />
             <span>
-              {{ product.name }} - $ {{ new Intl.NumberFormat("es-CO").format(product.price) }}
-            </span>
-          </div>
-          <div class="cart-content__product">
-            <img :src="product.images[1].thumbnail" :alt="product.name" />
-            <span>
-              {{ product.name }} - $ {{ new Intl.NumberFormat("es-CO").format(product.price) }}
+              {{ prodCart.name }} - $ {{ new Intl.NumberFormat("es-CO").format(prodCart.price) }}
             </span>
           </div>
         </div>
@@ -165,14 +164,11 @@
         <section class="product">
           <div class="product__thumbnails">
             <div
+              v-for="(image, index) in product.images"
+              :key="image.thumbnail"
               class="thumb"
-              :class="{ active: activeImage === 0 }"
-              :style="{ backgroundImage: 'url('+ product.images[0].thumbnail +')' }"
-            ></div>
-            <div
-              class="thumb"
-              :class="{ active: activeImage === 1 }"
-              :style="'background-image: url(' + product.images[1].thumbnail + ')'"
+              :class="{ active: activeImage === index }"
+              :style="{ backgroundImage: 'url('+ image.thumbnail +')' }"
             ></div>
           </div>
           <div class="product__image">
@@ -236,7 +232,93 @@
               new: true
             },
             activeImage: 0,
-            cartOpen: true
+            cartOpen: true,
+            cart: [
+              {
+                name: "Camara PL",
+                price: 200_000,
+                stock: 1,
+                content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+                atque dolorum corporis, reiciendis eaque temporibus quod magnam amet
+                ea natus delectus? Aut placeat ipsam minus labore voluptas. Porro,
+                vel aliquid!`,
+                images: [
+                  {
+                    image: "./images/camara.jpg",
+                    thumbnail: "./images/camara-thumb.jpg"
+                  },
+                  {
+                    image: "./images/camara-2.jpg",
+                    thumbnail: "./images/camara-2-thumb.jpg"
+                  }
+                ],
+                offer: true,
+                new: true
+              },
+              {
+                name: "Camara PL2",
+                price: 450_000,
+                stock: 1,
+                content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+                atque dolorum corporis, reiciendis eaque temporibus quod magnam amet
+                ea natus delectus? Aut placeat ipsam minus labore voluptas. Porro,
+                vel aliquid!`,
+                images: [
+                  {
+                    image: "./images/camara.jpg",
+                    thumbnail: "./images/camara-thumb.jpg"
+                  },
+                  {
+                    image: "./images/camara-2.jpg",
+                    thumbnail: "./images/camara-2-thumb.jpg"
+                  }
+                ],
+                offer: true,
+                new: true
+              },
+              {
+                name: "Camara PL2",
+                price: 450_000,
+                stock: 1,
+                content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+                atque dolorum corporis, reiciendis eaque temporibus quod magnam amet
+                ea natus delectus? Aut placeat ipsam minus labore voluptas. Porro,
+                vel aliquid!`,
+                images: [
+                  {
+                    image: "./images/camara.jpg",
+                    thumbnail: "./images/camara-thumb.jpg"
+                  },
+                  {
+                    image: "./images/camara-2.jpg",
+                    thumbnail: "./images/camara-2-thumb.jpg"
+                  }
+                ],
+                offer: true,
+                new: true
+              },
+              {
+                name: "Camara PL2",
+                price: 450_000,
+                stock: 1,
+                content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+                atque dolorum corporis, reiciendis eaque temporibus quod magnam amet
+                ea natus delectus? Aut placeat ipsam minus labore voluptas. Porro,
+                vel aliquid!`,
+                images: [
+                  {
+                    image: "./images/camara.jpg",
+                    thumbnail: "./images/camara-thumb.jpg"
+                  },
+                  {
+                    image: "./images/camara-2.jpg",
+                    thumbnail: "./images/camara-2-thumb.jpg"
+                  }
+                ],
+                offer: true,
+                new: true
+              }
+            ]
           };
         }
       });
