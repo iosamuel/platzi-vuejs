@@ -145,7 +145,7 @@
     <div id="app">
       <header>
         <h3>PlatziCommerce</h3>
-        <button class="cart">Carro (0)</button>
+        <button class="cart">Carro ({{ cart.length }})</button>
         <div class="cart-content" v-show="cartOpen">
           <div
             v-for="(prodCart, index) in cart"
