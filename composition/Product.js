@@ -26,7 +26,7 @@ app.component("product", {
       <p class="description__status" v-else-if="product.stock === 1">
         Ultima unidad disponible!
       </p>
-      <p class="description__price">
+      <p class="description__price" :style="{ color: price_color }">
         $ {{ new Intl.NumberFormat("es-CO").format(product.price) }}
       </p>
       <p class="description__content">
@@ -49,12 +49,29 @@ app.component("product", {
   emits: ["sendtocart"],
   setup(props, context) {
     const productState = reactive({
-      activeImage: 0
+      activeImage: 0,
+      price_color: "rgb(104, 104, 209)"
     });
 
     function sendToCart() {
       context.emit("sendtocart", props.product);
     }
+
+    watch(
+      () => productState.activeImage,
+      (value, oldValue) => {
+        console.log(value, oldValue);
+      }
+    );
+
+    watch(
+      () => props.product.stock,
+      stock => {
+        if (stock <= 1) {
+          productState.price_color = "rgb(188 30 67)";
+        }
+      }
+    );
 
     const discountCodes = ref(["PLATZI20", "IOSAMUEL"]);
     function applyDiscount(event) {

@@ -159,6 +159,7 @@
               prodCart.quantity) }} ({{ prodCart.quantity }})
             </span>
           </div>
+          <p>Total: $ {{ new Intl.NumberFormat("es-CO").format(total) }}</p>
         </div>
       </header>
       <main>
@@ -173,7 +174,7 @@
 
     <script src="https://unpkg.com/vue@next"></script>
     <script>
-      const { createApp, ref, reactive, toRefs } = Vue;
+      const { createApp, ref, reactive, toRefs, watch } = Vue;
 
       const app = createApp({
         setup() {
@@ -270,7 +271,8 @@
 
           const cartState = reactive({
             cartOpen: false,
-            cart: []
+            cart: [],
+            total: 0
           });
           function addToCart(product) {
             const prodIndex = cartState.cart.findIndex(prod => prod.name === product.name);
@@ -281,6 +283,20 @@
             }
             product.stock -= 1;
           }
+
+          watch(
+            cartState.cart,
+            (value, oldValue) => {
+              cartState.total = cartState.cart.reduce((prev, curr) => {
+                const prevPrice = prev.price || prev;
+                const prevQuantity = prev.quantity || 1;
+                return prevPrice * prevQuantity + curr.price * curr.quantity;
+              }, 0);
+            }
+            /* {
+              deep: true
+            } */
+          );
 
           return {
             ...toRefs(cartState),
