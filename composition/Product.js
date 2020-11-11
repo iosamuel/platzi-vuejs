@@ -46,28 +46,36 @@ app.component("product", {
     </section>
   `,
   props: ["product"],
-  data() {
-    return {
-      activeImage: 0,
-      discountCodes: ["PLATZI20", "IOSAMUEL"]
-    };
-  },
-  methods: {
-    applyDiscount(event) {
-      const discountCodeIndex = this.discountCodes.indexOf(event.target.value);
-      if (discountCodeIndex >= 0) {
-        this.product.price *= 50 / 100;
-        this.discountCodes.splice(discountCodeIndex, 1);
-      }
-    },
-    addToCart() {
-      const prodIndex = this.cart.findIndex(prod => prod.name === this.product.name);
+  setup(props) {
+    const productState = reactive({
+      activeImage: 0
+    });
+
+    function addToCart() {
+      const prodIndex = cartState.cart.findIndex(prod => prod.name === props.product.name);
       if (prodIndex >= 0) {
-        this.cart[prodIndex].quantity += 1;
+        cartState.cart[prodIndex].quantity += 1;
       } else {
-        this.cart.push(this.product);
+        cartState.cart.push(props.product);
       }
-      this.product.stock -= 1;
+      props.product.stock -= 1;
     }
+
+    const discountCodes = ref(["PLATZI20", "IOSAMUEL"]);
+    function applyDiscount(event) {
+      const discountCodeIndex = discountCodes.value.indexOf(event.target.value);
+      if (discountCodeIndex >= 0) {
+        props.product.price *= 50 / 100;
+        discountCodes.value.splice(discountCodeIndex, 1);
+      }
+    }
+
+    return {
+      ...toRefs(productState),
+
+      addToCart,
+
+      applyDiscount
+    };
   }
 });
