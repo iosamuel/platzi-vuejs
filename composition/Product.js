@@ -50,8 +50,18 @@ app.component("product", {
   setup(props, context) {
     const productState = reactive({
       activeImage: 0,
-      price_color: "rgb(104, 104, 209)"
+      price_color: computed(() =>
+        props.product.stock <= 1 ? "rgb(188 30 67)" : "rgb(104, 104, 209)"
+      )
+      // price_color: "rgb(104, 104, 209)"
     });
+
+    /* const price_color = computed(() => {
+      if (props.product.stock <= 1) {
+        return "rgb(188 30 67)";
+      }
+      return "rgb(104, 104, 209)";
+    }); */
 
     function sendToCart() {
       context.emit("sendtocart", props.product);
@@ -64,14 +74,14 @@ app.component("product", {
       }
     );
 
-    watch(
+    /* watch(
       () => props.product.stock,
       stock => {
         if (stock <= 1) {
           productState.price_color = "rgb(188 30 67)";
         }
       }
-    );
+    ); */
 
     const discountCodes = ref(["PLATZI20", "IOSAMUEL"]);
     function applyDiscount(event) {
